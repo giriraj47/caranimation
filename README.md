@@ -70,6 +70,3 @@ The animation is driven by the user's scroll position. As you scroll down:
 - **High Contrast**: The use of bright greens, yellows, and oranges against a dark background ensures that key statistics are immediately eye-catching.
 - **Micro-animations**: Subtle transitions and easing functions (`power2.out`) provide a premium, "alive" feel.
 
----
-
-Built with ❤️ by [Your Name/Username]
