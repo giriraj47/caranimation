@@ -15,47 +15,62 @@ function App() {
 
   useGSAP(() => {
     const letters = gsap.utils.toArray('.letter');
-    const carWidth = carRef.current.offsetWidth;
-    const roadWidth = window.innerWidth;
-    const endX = roadWidth - (carWidth * 0.4);
+    
+    const startAnimation = () => {
+      if (!carRef.current) return;
+      
+      const carWidth = carRef.current.offsetWidth;
+      const roadWidth = window.innerWidth;
+      const endX = roadWidth - (carWidth * 0.4);
 
-    // Pre-calculate letter positions for performance
-    const letterPositions = letters.map(letter => {
-      const rect = letter.getBoundingClientRect();
-      const containerRect = revealTextRef.current.getBoundingClientRect();
-      return rect.left - containerRect.left + revealTextRef.current.offsetLeft;
-    });
+      // Pre-calculate letter positions for performance
+      const letterPositions = letters.map(letter => {
+        const rect = letter.getBoundingClientRect();
+        const containerRect = revealTextRef.current.getBoundingClientRect();
+        return rect.left - containerRect.left + revealTextRef.current.offsetLeft;
+      });
 
-    // Initialize trail and car state immediately
-    gsap.set(trailRef.current, { width: carWidth * 0.5 });
-    gsap.set(carRef.current, { x: 0 });
+      // Initialize trail and car state immediately
+      gsap.set(trailRef.current, { width: carWidth * 0.5 });
+      gsap.set(carRef.current, { x: 0 });
 
-    // Main car and trail animation
-    gsap.to(carRef.current, {
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-      },
-      x: endX,
-      ease: "none",
-      onUpdate: function () {
-        const progress = this.progress();
-        const currentX = progress * endX;
-        const revealPoint = currentX + (carWidth * 0.5);
-        
-        letters.forEach((letter, i) => {
-          if (revealPoint >= letterPositions[i]) {
-            gsap.to(letter, { opacity: 1, duration: 0.1, overwrite: "auto" });
-          } else {
-            gsap.to(letter, { opacity: 0, duration: 0.1, overwrite: "auto" });
-          }
-        });
+      // Main car and trail animation
+      gsap.to(carRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+        x: endX,
+        ease: "none",
+        onUpdate: function () {
+          const progress = this.progress();
+          const currentX = progress * endX;
+          const revealPoint = currentX + (carWidth * 0.5);
+          
+          letters.forEach((letter, i) => {
+            if (revealPoint >= letterPositions[i]) {
+              gsap.to(letter, { opacity: 1, duration: 0.1, overwrite: "auto" });
+            } else {
+              gsap.to(letter, { opacity: 0, duration: 0.1, overwrite: "auto" });
+            }
+          });
 
-        gsap.set(trailRef.current, { width: currentX + (carWidth * 0.5) });
-      }
-    });
+          gsap.set(trailRef.current, { width: currentX + (carWidth * 0.5) });
+        }
+      });
+      
+      // Fix for reload: sync scroll position
+      ScrollTrigger.refresh();
+    };
+
+    if (carRef.current.complete) {
+      startAnimation();
+    } else {
+      carRef.current.onload = startAnimation;
+    }
 
     const boxes = [
       { id: "#box1", start: "top+=10%", end: "top+=30%" },
