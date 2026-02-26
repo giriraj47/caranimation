@@ -15,9 +15,9 @@ function App() {
 
   useGSAP(() => {
     const letters = gsap.utils.toArray('.letter');
-    const carWidth = 300;
+    const carWidth = carRef.current.offsetWidth;
     const roadWidth = window.innerWidth;
-    const endX = 1300;
+    const endX = roadWidth - (carWidth * 0.4);
 
     // Pre-calculate letter positions for performance
     const letterPositions = letters.map(letter => {
