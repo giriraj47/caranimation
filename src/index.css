@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #121212;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overscroll-behavior: none;
+  scroll-behavior: auto;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+.animation-section {
+  height: 580vh;
+  position: relative;
+  background: #121212;
+}
+
+.animation-track {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d1d1d1;
+  overflow: hidden;
+}
+
+.road {
+  position: relative;
+  width: 100vw;
+  height: 200px;
+  background-color: #1e1e1e;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.car {
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.trail {
+  height: 100%;
+  background: #45db7d;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 0;
+}
+
+.text-box {
+  opacity: 0;
+  padding: 1.2rem 2rem;
+  border-radius: 12px;
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.num-box {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.box-description {
+  font-size: 1.1rem;
+  font-weight: 500;
+  max-width: 200px;
+}
+
+#box1 { background: #def54f; color: #111; top: 5%; right: 30%; position: absolute; }
+#box2 { background: #6ac9ff; color: #111; bottom: 5%; right: 30%; position: absolute; }
+#box3 { background: #333; color: #fff; top: 5%; right: 5%; position: absolute; }
+#box4 { background: #fa7328; color: #111; bottom: 5%; right: 5%; position: absolute; }
+
+.reveal-text {
+  font-size: 10vw;
+  font-weight: 900;
+  position: absolute;
+  left: 5%;
+  z-index: 5;
+  display: flex;
+  gap: 0.2rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.letter {
+  color: #111;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
